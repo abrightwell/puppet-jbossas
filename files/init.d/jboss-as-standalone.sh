@@ -94,7 +94,16 @@ start() {
 #    else
 #      su - $JBOSS_USER -c "LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE $JBOSS_SCRIPT -c $JBOSS_CONFIG -b $JBOSS_BIND_ADDRESS" 2>&1 > $JBOSS_CONSOLE_LOG &
 #    fi
-     LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE start-stop-daemon --background --chuid $JBOSS_USER --pidfile $JBOSS_PIDFILE --startas $JBOSS_SCRIPT --start -- -c $JBOSS_CONFIG -b $JBOSS_BIND_ADDRESS 2>&1 > $JBOSS_CONSOLE_LOG &
+     LAUNCH_JBOSS_IN_BACKGROUND=1 JBOSS_PIDFILE=$JBOSS_PIDFILE start-stop-daemon --background \
+       --chuid $JBOSS_USER \
+       --pidfile $JBOSS_PIDFILE \
+       --startas $JBOSS_SCRIPT \
+       --start \
+       -- \
+       -c $JBOSS_CONFIG \
+       -b $JBOSS_BIND_ADDRESS \
+       -Djboss.bind.address.management=$JBOSS_BIND_ADDRESS_MANAGEMENT \
+       2>&1 > $JBOSS_CONSOLE_LOG &
   fi
 
   count=0

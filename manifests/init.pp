@@ -23,6 +23,7 @@ class jbossas (
   # Will use curl to download, so 'file:///' is also possible not just 'http://'
   $mirror_url     = 'http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/',
   $bind_address   = '127.0.0.1',
+  $bind_address_management = '127.0.0.1',
   $http_port      = 8080,
   $https_port     = 8443,
   $enable_service = true,
@@ -109,6 +110,7 @@ class jbossas (
   # init.d configuration for Ubuntu
   class initd {
     $jbossas_bind_address = $jbossas::bind_address
+    $jbossas_bind_address_management = $jbossas::bind_address_management
 
     file { '/etc/jboss-as':
       ensure => directory,
