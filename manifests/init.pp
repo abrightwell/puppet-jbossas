@@ -27,7 +27,8 @@ class jbossas (
   $http_port      = 8080,
   $https_port     = 8443,
   $enable_service = true,
-  $tcnative       = true)
+  $tcnative       = true,
+  $system_properties = [])
 {
   $dir = "/usr/share/jboss-as"
 
@@ -106,6 +107,21 @@ class jbossas (
     }
 
   }
+
+  class config {
+    $jbossas_system_properties = $jbossas::system_properties
+
+    file { '/usr/share/jboss-as/standalone/configuration/standalone.xml':
+      content => template('jbossas/standalone.xml.erb'),
+      owner => jbossas,
+      group => jbossas,
+      mode  => 0644,
+      notify => Service['jboss-as'],
+    }
+  }
+  Class['install'] -> Class['config']
+
+  include config
 
   # init.d configuration for Ubuntu
   class initd {
